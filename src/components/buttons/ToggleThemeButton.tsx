@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Image from 'next/image'
-import { ThemeContext } from '../../app/contexts/themeContext'
+import { ThemeContext } from '../../app/providers/themeProvider'
 
 export const ToggleThemeButton = (): JSX.Element => {
   const themeContext = useContext(ThemeContext)

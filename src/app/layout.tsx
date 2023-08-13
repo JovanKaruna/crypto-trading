@@ -1,7 +1,8 @@
 import './globals.css'
+import 'semantic-ui-css/semantic.min.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
-import ThemeProvider from './contexts/themeContext'
+import ThemeProvider from './providers/themeProvider'
 import Layout from '@/components/Layout'
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400'] })

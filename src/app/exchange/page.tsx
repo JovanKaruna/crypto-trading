@@ -1,7 +1,9 @@
+import Link from 'next/link'
 const Exchange = () => {
   return (
     <main>
-      <h1>exchange Page</h1>
+      <h2 className="dark:text-white">Exchange Page</h2>
+      <Link href="/market">List harga crypto</Link>
     </main>
   )
 }
