@@ -4,7 +4,7 @@ import { type SupportedCurrenciesResponseBody } from '../../types'
 const getSupportedCurrencies =
   async (): Promise<SupportedCurrenciesResponseBody> => {
     const response = await axios.get<SupportedCurrenciesResponseBody>(
-      'pintu-app.vercel.app/v2/wallet/supportedCurrencies'
+      'https://pintu-app.vercel.app/v2/wallet/supportedCurrencies'
     )
     return response.data
   }
