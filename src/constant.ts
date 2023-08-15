@@ -1,4 +1,4 @@
-import { DropdownOption } from './types'
+import { DropdownOption, HistoricalDataType } from './types'
 
 export const GROUP_SIZE_DROPDOWN_OPTIONS: DropdownOption[] = [
   {
@@ -15,5 +15,23 @@ export const GROUP_SIZE_DROPDOWN_OPTIONS: DropdownOption[] = [
     key: '2.5',
     text: 'Group 2.5',
     value: 2.5
+  }
+]
+
+export const HISTORICAL_TYPE_DROPDOWN_OPTIONS: DropdownOption[] = [
+  {
+    key: HistoricalDataType.MINUTE,
+    text: 'Daily',
+    value: HistoricalDataType.MINUTE
+  },
+  {
+    key: HistoricalDataType.HOUR,
+    text: 'Hour',
+    value: HistoricalDataType.HOUR
+  },
+  {
+    key: HistoricalDataType.DAILY,
+    text: 'Daily',
+    value: HistoricalDataType.DAILY
   }
 ]

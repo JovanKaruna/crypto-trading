@@ -13,6 +13,38 @@ export interface PriceChangesItem {
   year: string
 }
 
+export interface HistoricalDataResponseBody {
+  Response: string
+  Message: string
+  HasWarning: boolean
+  Type: number
+  RateLimit: {}
+  Data: HistoricalDataPayload
+}
+
+interface HistoricalDataPayload {
+  Aggregated: boolean
+  TimeFrom: number
+  TimeTo: number
+  Data: HistoricalDataTime[]
+}
+
+export interface HistoricalDataTime {
+  time: number
+  high: number
+  low: number
+  open: number
+  volumefrom: number
+  volumeto: number
+  close: number
+  conversionType: string
+  conversionSymbol: string
+}
+
+export interface Series {
+  data: number[][]
+}
+
 export interface SupportedCurrenciesResponseBody {
   code: string
   message: string
@@ -57,4 +89,10 @@ export interface DropdownOption {
   key: string
   text: string
   value: number | string
+}
+
+export enum HistoricalDataType {
+  DAILY = 'daily',
+  HOUR = 'hour',
+  MINUTE = 'minute'
 }

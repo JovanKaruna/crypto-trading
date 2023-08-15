@@ -6,7 +6,7 @@ import {
 
 const getPriceChanges = async (): Promise<PriceChangesResponseBody> => {
   const response = await axios.get<PriceChangesResponseBody>(
-    'https://pintu-app.vercel.app/v2/trade/price-changes'
+    '/v2/trade/price-changes'
   )
   return response.data
 }
@@ -14,7 +14,7 @@ const getPriceChanges = async (): Promise<PriceChangesResponseBody> => {
 const getSupportedCurrencies =
   async (): Promise<SupportedCurrenciesResponseBody> => {
     const response = await axios.get<SupportedCurrenciesResponseBody>(
-      'https://pintu-app.vercel.app/v2/wallet/supportedCurrencies'
+      '/v2/wallet/supportedCurrencies'
     )
     return response.data
   }

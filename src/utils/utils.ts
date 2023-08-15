@@ -11,6 +11,17 @@ export const formatRupiah = (number: string): string => {
   return rupiah
 }
 
+export const formatNumber = (arg: number): string => {
+  return new Intl.NumberFormat('en-US').format(arg)
+}
+
+export const formatPrice = (arg: number): string => {
+  return arg.toLocaleString('en', {
+    useGrouping: true,
+    minimumFractionDigits: 2
+  })
+}
+
 export const isMinus = (number: string): boolean => {
   return number.substring(0, 1) === '-'
 }
@@ -43,4 +54,8 @@ export const groupBySize = (
   return groupByPrice(
     levels.map((level) => [roundValue(level[0], groupSize), level[1]])
   )
+}
+
+export const convertTimestampSecondToMillis = (second: number): number => {
+  return parseInt(second.toString().concat('000'))
 }
