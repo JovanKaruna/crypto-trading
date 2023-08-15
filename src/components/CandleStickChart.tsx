@@ -44,7 +44,6 @@ const CandleStickChart: React.FC = (): JSX.Element => {
   }, [historicalType])
 
   useEffect(() => {
-    console.log(rawHistoricalData)
     setSeries(convertHistoricalDataToSeries(rawHistoricalData))
   }, [rawHistoricalData])
 
@@ -70,7 +69,7 @@ const CandleStickChart: React.FC = (): JSX.Element => {
     <div className="container">
       <div className="w-full dark:text-white rounded-3xl overflow-hidden shadow-2xl">
         <div className="px-6 py-4">
-          <div className="flex justify-between items-center mb-5">
+          <div className="grid grid-cols-2 items-center mb-5">
             <div className="text-lg font-bold">Harga BTC (USD)</div>
             <select
               className="w-36 bg-white border border-grey text-black text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-grey-dark dark:border-grey dark:text-white"

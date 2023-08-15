@@ -35,3 +35,5 @@ export const HISTORICAL_TYPE_DROPDOWN_OPTIONS: DropdownOption[] = [
     value: HistoricalDataType.DAILY
   }
 ]
+
+export const MAXIMUM_ORDER: number = 25

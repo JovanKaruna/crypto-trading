@@ -96,3 +96,8 @@ export enum HistoricalDataType {
   HOUR = 'hour',
   MINUTE = 'minute'
 }
+
+export interface BidAskResponse {
+  bids: number[][]
+  asks: number[][]
+}

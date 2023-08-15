@@ -4,7 +4,7 @@ import React from 'react'
 
 const DescriptionBox: React.FC = (): JSX.Element => {
   return (
-    <div className="hidden lg:block min-h-87.5vh w-full my-4 dark:text-white rounded-3xl overflow-hidden shadow-2xl">
+    <div className="hidden lg:block min-h-80vh w-full my-4 dark:text-white rounded-3xl overflow-hidden shadow-2xl">
       <div className="px-6 py-4">
         <div className="text-3xl font-bold mt-3">Tentang Bitcoin</div>
         <div className="mt-3">
@@ -83,7 +83,6 @@ const DescriptionBox: React.FC = (): JSX.Element => {
           mengawasi bursa kripto di dalam dan luar negeri lewat peraturan
           transfer uang.
         </div>
-        <div className="mt-5 font-bold text-lg">From Wikipedia</div>
       </div>
     </div>
   )

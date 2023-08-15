@@ -1,151 +1,114 @@
 'use client'
 
-import { GROUP_SIZE_DROPDOWN_OPTIONS } from '@/constant'
-import { groupBySize } from '@/utils/utils'
+import { GROUP_SIZE_DROPDOWN_OPTIONS, MAXIMUM_ORDER } from '@/constant'
+import {
+  addTotalSize,
+  groupBySize,
+  priceExists,
+  removePriceLevel,
+  updateCurrentPrice
+} from '@/utils/utils'
 import React, { useEffect, useState } from 'react'
 import OrderBookTable from './tables/OrderBookTable'
+import { BidAskResponse } from '@/types'
 
-interface Delta {
-  bids: number[][]
-  asks: number[][]
-}
 let currentBids: number[][] = []
 let currentAsks: number[][] = []
 
 const OrderBook: React.FC = (): JSX.Element => {
-  const [rawBids, setRawBids] = useState<number[][]>([])
-  const [rawAsks, setRawAsks] = useState<number[][]>([])
   const [bids, setBids] = useState<number[][]>([])
   const [asks, setAsks] = useState<number[][]>([])
   const [groupSize, setGroupSize] = useState(0.5)
 
-  const removePriceLevel = (price: number, levels: number[][]): number[][] =>
-    levels.filter((level) => level[0] !== price)
-
-  const updatePriceLevel = (
-    updatedLevel: number[],
-    levels: number[][]
+  const updateNewPrice = (
+    currentPrices: number[][],
+    newPrices: number[][]
   ): number[][] => {
-    return levels.map((level) => {
-      if (level[0] === updatedLevel[0]) {
-        level = updatedLevel
-      }
-      return level
-    })
-  }
+    let updatedPrices: number[][] = currentPrices
 
-  const levelExists = (
-    deltaLevelPrice: number,
-    currentLevels: number[][]
-  ): boolean => currentLevels.some((level) => level[0] === deltaLevelPrice)
+    newPrices.forEach((price) => {
+      const newPrice = price[0]
+      const size = price[1]
 
-  const addPriceLevel = (
-    deltaLevel: number[],
-    levels: number[][]
-  ): number[][] => {
-    return [...levels, deltaLevel]
-  }
-  const applyDeltas = (
-    currentLevels: number[][],
-    orders: number[][]
-  ): number[][] => {
-    let updatedLevels: number[][] = currentLevels
-
-    orders.forEach((deltaLevel) => {
-      const deltaLevelPrice = deltaLevel[0]
-      const deltaLevelSize = deltaLevel[1]
-
-      // If new size is zero - delete the price level
-      if (deltaLevelSize === 0 && updatedLevels.length > 25) {
-        updatedLevels = removePriceLevel(deltaLevelPrice, updatedLevels)
+      if (size === 0) {
+        updatedPrices = removePriceLevel(newPrice, updatedPrices)
       } else {
-        // If the price level exists and the size is not zero, update it
-        if (levelExists(deltaLevelPrice, currentLevels)) {
-          updatedLevels = updatePriceLevel(deltaLevel, updatedLevels)
+        if (priceExists(newPrice, updatedPrices)) {
+          updatedPrices = updateCurrentPrice(price, updatedPrices)
         } else {
-          // If the price level doesn't exist in the orderbook and there are less than 25 levels, add it
-          if (updatedLevels.length < 25) {
-            updatedLevels = addPriceLevel(deltaLevel, updatedLevels)
-          }
+          updatedPrices = [...updatedPrices, price]
         }
       }
     })
 
-    return updatedLevels
+    return updatedPrices
   }
   const addBids = (listOfBids: number[][]): void => {
-    const groupedCurrentBids: number[][] = groupBySize(listOfBids, groupSize)
-    const updatedBids: number[][] = addTotalSize(
-      applyDeltas(groupBySize(rawBids, groupSize), groupedCurrentBids)
+    const updatedRawBids: number[][] = updateNewPrice(currentBids, listOfBids)
+    const updatedBids: number[][] = removePricesShown(
+      addTotalSize(groupBySize(updatedRawBids, groupSize), true),
+      MAXIMUM_ORDER,
+      true
     )
-
+    currentBids = updatedRawBids
     setBids(updatedBids)
   }
-  const addAsks = (listOfAsks: number[][]): void => {
-    const groupedCurrentAsks: number[][] = groupBySize(listOfAsks, groupSize)
-    const updatedAsks: number[][] = addTotalSize(
-      applyDeltas(groupBySize(rawAsks, groupSize), groupedCurrentAsks)
-    )
 
+  const addAsks = (listOfAsks: number[][]): void => {
+    const updatedRawAsks: number[][] = updateNewPrice(currentAsks, listOfAsks)
+    const updatedAsks: number[][] = removePricesShown(
+      addTotalSize(groupBySize(updatedRawAsks, groupSize), true),
+      MAXIMUM_ORDER,
+      false
+    )
+    currentAsks = updatedRawAsks
     setAsks(updatedAsks)
   }
 
-  const addTotalSize = (orders: number[][]): number[][] => {
-    const totalSize: number[] = []
-
-    return orders.map((order: number[], idx) => {
-      const size: number = order[1]
-      if (typeof order[2] !== 'undefined') {
-        return order
-      } else {
-        const updatedLevel = [...order]
-        const totalSum: number = idx === 0 ? size : size + totalSize[idx - 1]
-        updatedLevel[2] = totalSum
-        totalSize.push(totalSum)
-        return updatedLevel
-      }
-    })
+  const removePricesShown = (
+    prices: number[][],
+    maximumOrderShown: number,
+    isBid: boolean
+  ): number[][] => {
+    return prices
+      .sort((a: number[], b: number[]) => (isBid ? b[0] - a[0] : a[0] - b[0]))
+      .slice(0, maximumOrderShown - 1)
   }
 
   const addFirstMessage = (payload: any) => {
     const rawBids: number[][] = payload.bids
     const rawAsks: number[][] = payload.asks
-    const bids: number[][] = addTotalSize(groupBySize(rawBids, groupSize))
-    const asks: number[][] = addTotalSize(groupBySize(rawAsks, groupSize))
-    setRawBids(rawBids)
-    setRawAsks(rawAsks)
+    const bids: number[][] = removePricesShown(
+      addTotalSize(groupBySize(rawBids, groupSize), true),
+      MAXIMUM_ORDER,
+      true
+    )
+    const asks: number[][] = removePricesShown(
+      addTotalSize(groupBySize(rawAsks, groupSize), false),
+      MAXIMUM_ORDER,
+      false
+    )
+    currentBids = rawBids
+    currentAsks = rawAsks
     setBids(bids)
     setAsks(asks)
   }
 
-  const process = (data: Delta) => {
+  const processNextMessage = (data: BidAskResponse) => {
     if (data?.bids?.length > 0) {
-      currentBids = [...currentBids, ...data.bids]
-
-      if (currentBids.length > 25) {
-        addBids(currentBids)
-        currentBids = []
-        currentBids.length = 0
-      }
+      addBids(data.bids)
     }
     if (data?.asks?.length >= 0) {
-      currentAsks = [...currentAsks, ...data.asks]
-
-      if (currentAsks.length > 25) {
-        addAsks(currentAsks)
-        currentAsks = []
-        currentAsks.length = 0
-      }
+      addAsks(data.asks)
     }
   }
 
   const processMessages = (event: { data: string }) => {
     const response = JSON.parse(event.data)
-
     if (response.numLevels) {
       addFirstMessage(response)
     } else {
-      process(response)
+      processNextMessage(response)
     }
   }
 
@@ -171,13 +134,13 @@ const OrderBook: React.FC = (): JSX.Element => {
       ws.close()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [groupSize])
 
   return (
     <div className="container">
       <div className="lg:max-w-sm dark:text-white rounded-3xl overflow-hidden shadow-2xl">
         <div className="px-6 py-4">
-          <div className="flex justify-between items-center mb-5">
+          <div className="grid grid-cols-2 items-center mb-5">
             <div className="text-lg font-bold">Order Book</div>
             <select
               className="w-36 bg-white border border-grey text-black text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-grey-dark dark:border-grey dark:text-white"
