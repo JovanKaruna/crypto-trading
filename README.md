@@ -1,10 +1,7 @@
 # crypto-trading
 crypto-trading is a frontend mockup website that hava a crypto trading exchange page (order book section and candlestick chart) page and market list page. You can access the website on https://crypto-trading-six.vercel.app. This app is designed with Next and Typescript, while deployed in vercel with auto deployment.
 
-[Website Crypto Exchange Trading Page](./screenshots/website_1.png)
-[Website List Market](./screenshots/website_2.png)
-[Mobile CandleStick Chart](./screenshots/mobile_1.png)
-[Movile Order Book Section](./screenshots/mobile_2.png)
+![Website Crypto Exchange Trading Page](./screenshots/website_1.png)
 
 Pages and functions on the app :
 - Crypto Trading Exchange page
@@ -41,6 +38,11 @@ Some of the dependencies that are used in this project and why I used it
 - React Apexcharts : for creating charts
 - semantic ui react : for built in component, used only on list market page
 ```
+
+## Screenshots
+![Website List Market](./screenshots/website_2.png)
+![Mobile CandleStick Chart](./screenshots/mobile_1.png)
+![Movile Order Book Section](./screenshots/mobile_2.png)
 
 ## Contributors
 This project is created by :
