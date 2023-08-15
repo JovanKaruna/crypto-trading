@@ -50,8 +50,7 @@ const config: Config = {
           DEFAULT: '#1b1b1b'
         },
         white: {
-          DEFAULT: '#ffffff',
-          dark: '#f5f5f5'
+          DEFAULT: '#f5f5f5'
         },
         grey: {
           light: '#eaeaea',
@@ -75,6 +74,16 @@ const config: Config = {
         '100vh': '100vh'
       },
       minWidth: {
+        '10vh': '10vh',
+        '25vh': '25vh',
+        '40vh': '40vh',
+        '60vh': '60vh',
+        '75vh': '75vh',
+        '80vh': '80vh',
+        '90vh': '90vh',
+        '100vh': '100vh'
+      },
+      maxWidth: {
         '10vh': '10vh',
         '25vh': '25vh',
         '40vh': '40vh',

@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import WalletService from '../services/WalletService'
-import TradeService from '../services/TradeService'
-import MarketTable from '@/components/MarketTable'
+import MarketService from '../services/MarketService'
+import MarketTable from '@/components/tables/MarketTable'
 import {
   type PriceChangesItem,
   type Currency,
@@ -20,14 +19,14 @@ const Market = (): JSX.Element => {
 
   const fetchCurrencies = async () => {
     setIsLoadingSupportedCurrencies(true)
-    const data = await WalletService.getSupportedCurrencies()
+    const data = await MarketService.getSupportedCurrencies()
     setCurrencies(data.payload)
     setIsLoadingSupportedCurrencies(false)
   }
 
   const fetchPrice = async () => {
     setIsLoadingPrice(true)
-    const data = await TradeService.getPriceChanges()
+    const data = await MarketService.getPriceChanges()
     setPrices(data.payload)
     setIsLoadingPrice(false)
   }

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Table, Segment } from 'semantic-ui-react'
-import { type MarketTableData } from '../types'
+import { type MarketTableData } from '../../types'
 import Link from 'next/link'
 import Image from 'next/image'
-import { formatRupiah, isMinus } from '../utils/utils'
+import { formatRupiah, isMinus } from '../../utils/utils'
 
 interface TableProps {
   data: MarketTableData[]

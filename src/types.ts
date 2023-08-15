@@ -57,10 +57,4 @@ export interface DropdownOption {
   key: string
   text: string
   value: number | string
-  image: ImageOption
-}
-
-interface ImageOption {
-  avatar: boolean
-  src: string
 }
