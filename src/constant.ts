@@ -21,7 +21,7 @@ export const GROUP_SIZE_DROPDOWN_OPTIONS: DropdownOption[] = [
 export const HISTORICAL_TYPE_DROPDOWN_OPTIONS: DropdownOption[] = [
   {
     key: HistoricalDataType.MINUTE,
-    text: 'Daily',
+    text: 'Minute',
     value: HistoricalDataType.MINUTE
   },
   {

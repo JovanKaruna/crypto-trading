@@ -180,7 +180,7 @@ const OrderBook: React.FC = (): JSX.Element => {
           <div className="flex justify-between items-center mb-5">
             <div className="text-lg font-bold">Order Book</div>
             <select
-              className="w-32 bg-white border border-grey text-black text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-grey-dark dark:border-grey dark:text-white"
+              className="w-36 bg-white border border-grey text-black text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-grey-dark dark:border-grey dark:text-white"
               value={groupSize}
               onChange={(e) => setGroupSize(parseFloat(e.target.value))}
             >

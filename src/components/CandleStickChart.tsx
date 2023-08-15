@@ -1,10 +1,12 @@
 'use client'
 
+import dynamic from 'next/dynamic'
+
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import ExchangeService from '@/app/services/ExchangeService'
 import { HISTORICAL_TYPE_DROPDOWN_OPTIONS } from '@/constant'
 import { HistoricalDataTime, HistoricalDataType, Series } from '@/types'
 import React, { useEffect, useState } from 'react'
-import ReactApexChart from 'react-apexcharts'
 import { ApexOptions } from 'apexcharts'
 import { convertTimestampSecondToMillis } from '@/utils/utils'
 
@@ -71,7 +73,7 @@ const CandleStickChart: React.FC = (): JSX.Element => {
           <div className="flex justify-between items-center mb-5">
             <div className="text-lg font-bold">Harga BTC (USD)</div>
             <select
-              className="w-32 bg-white border border-grey text-black text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-grey-dark dark:border-grey dark:text-white"
+              className="w-36 bg-white border border-grey text-black text-sm rounded-lg focus:ring-blue focus:border-blue block w-full p-2.5 dark:bg-grey-dark dark:border-grey dark:text-white"
               value={historicalType}
               onChange={(e) =>
                 setHistoricalType(e.target.value as HistoricalDataType)
